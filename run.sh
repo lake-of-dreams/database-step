@@ -1,25 +1,7 @@
 #!/bin/sh
-WLST="/u01/oracle/oracle_common/common/bin/wlst.sh -skipWLSModuleScanning"
+CLASSPATH=/u01/oracle/oracle_common/modules/jackson-jaxrs-json-provider-2.4.3.jar:/u01/oracle/oracle_common/modules/jackson-dataformat-xml-2.4.3.jar:/u01/oracle/oracle_common/moduls/jackson-module-jsonSchema-2.4.3.jar:/u01/oracle/oracle_common/modules/jackson-jaxrs-base-2.4.3.jar:/u01/oracle/oui/modules/jackson-annotations-2.4.3.jar:/u01/oracle/oui/modules/jackson-databind-2.4.3.jar:/u01/oracle/oui/modules/jackson-core-2.4.3.jar:/u01/oracle/oui/modules/jackson-module-jaxb-annotations-2.4.3.jar:/u01/oracle/oracle_common/modules/oracle.jdbc/ojdbc7.jar
 
-echo "Hello from the WebLogic Step"
-echo "Reading the config from :" $WERCKER_WEBLOGIC_STEP_CONFIG
-cat $WERCKER_WEBLOGIC_STEP_CONFIG
-
-echo "Create domains directory"
-mkdir -p /u01/oracle/domains
-
-echo "Create applications directory"
-mkdir -p /u01/oracle/applications
-
-echo "Checking we can run wlst"
-$WLST $WERCKER_STEP_ROOT/test.py
-
-echo "Creating the basic domain"
-$WLST $WERCKER_STEP_ROOT/create-domain.py
-
-echo "Create data sources"
-$WLST $WERCKER_STEP_ROOT/create-data-sources.py $WERCKER_WEBLOGIC_STEP_CONFIG
-
-echo "Deploy applications"
-$WLST $WERCKER_STEP_ROOT/deploy-applications.py $WERCKER_WEBLOGIC_STEP_CONFIG
-
+echo "Compiling java class"
+cd $WERCKER_STEP_ROOT
+javac -cp $CLASSPATH CreateDDL.java
+java -cp $CLASSPATH:. CreateDDL
